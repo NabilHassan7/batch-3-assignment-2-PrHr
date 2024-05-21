@@ -74,11 +74,25 @@ const deleteSingleProductFromDB = async (id : string) => {
     }
 }
 
+// searching for a specific term service
+const searchForSpecificTermInDB = async (searchTerm : any) => {
+    const result = Product.find({
+        $or: [
+            { name: { $regex: searchTerm, $options: 'i' } },
+            { description: { $regex: searchTerm, $options: 'i' } },
+            { category: { $regex: searchTerm, $options: 'i' } }
+        ]
+    })
+
+    return result;
+}
+
 // exporting services
 export const ProductServices = {
     createProductIntoDB,
     getAllProductsFromDB,
     getSingleProductFromDB,
     updateSingleProductInDB,
-    deleteSingleProductFromDB
+    deleteSingleProductFromDB,
+    searchForSpecificTermInDB
 }
