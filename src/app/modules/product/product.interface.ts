@@ -15,7 +15,6 @@ export type TInventory = {
 
 // type declaration for product
 export type TProduct = {
-    id ?: string;
     name : string;
     description : string;
     price : number;

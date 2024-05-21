@@ -31,10 +31,6 @@ const inventorySchema = new Schema<TInventory>({
 
 // Product Schema Declaration
 const productSchema = new Schema<TProduct, ProductModel>({
-    id: {
-        type: String,
-        unique: true
-    },
     name: {
         type: String,
         required: [true,'Name is required.'],
@@ -47,12 +43,10 @@ const productSchema = new Schema<TProduct, ProductModel>({
     price: {
         type: Number,
         required: [true,'Price is required.'],
-        unique: true
     },
     category: {
         type: String,
         required: [true,'Price is required.'],
-        unique: true
     },
     tags: {
         type: [String],
@@ -68,6 +62,13 @@ const productSchema = new Schema<TProduct, ProductModel>({
         required: [true,'Inventory is required.'],
     }
 })
+
+// static method
+productSchema.statics.isProductExists = async function(name : string){
+    const existingProduct = await Product.findOne({name});
+
+    return existingProduct;
+}
 
 // exporting product model
 export const Product = model<TProduct, ProductModel>('Product',productSchema);
