@@ -55,7 +55,7 @@ const getSingleProduct = async (req : Request, res : Response) => {
 
         res.status(200).json({
             success: true,
-            message: "Products fetched successfully!",
+            message: "Product fetched successfully!",
             data: result
         })
     }

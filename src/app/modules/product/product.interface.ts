@@ -27,5 +27,4 @@ export type TProduct = {
 // custom static method for product
 export interface ProductModel extends Model<TProduct> {
     isProductExists(id : string): Promise<TProduct | null>;
-    isProductExistsById(id : string): Promise<TProduct | null>;
 }

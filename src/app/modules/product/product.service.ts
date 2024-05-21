@@ -27,14 +27,24 @@ const getAllProductsFromDB = async () => {
 const getSingleProductFromDB = async (id : string) => {
     const result = await Product.findOne({_id : id });
 
-    return result;
+    const objectLength : number = Object.keys(Object(result)).length;
+
+    if(objectLength > 0){
+        return result;
+    }
+    else{
+        throw new Error('Product not found');
+    } 
 }
 
 // update a single product service
 const updateSingleProductInDB = async (id : string, productData : TProduct) => {
+    
+    const productToUpdate = await Product.findOne({_id : id });
 
-    if(await Product.isProductExists(productData.name)){
-         
+    const objectLength : number = Object.keys(Object(productToUpdate)).length;
+
+    if(objectLength > 0){
         const updatingProduct = await Product.replaceOne({_id: id}, productData)
 
         const result = await Product.findOne({_id : id });
@@ -43,7 +53,7 @@ const updateSingleProductInDB = async (id : string, productData : TProduct) => {
     }
     else{
         throw new Error('Product not found');
-    }    
+    }
 }
 
 // exporting services
