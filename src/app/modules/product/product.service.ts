@@ -25,15 +25,31 @@ const getAllProductsFromDB = async () => {
 
 // get a single product service
 const getSingleProductFromDB = async (id : string) => {
-    const result = await Product.findOne({'_id' : id });
+    const result = await Product.findOne({_id : id });
 
     return result;
 }
 
+// update a single product service
+const updateSingleProductInDB = async (id : string, productData : TProduct) => {
+
+    if(await Product.isProductExists(productData.name)){
+         
+        const updatingProduct = await Product.replaceOne({_id: id}, productData)
+
+        const result = await Product.findOne({_id : id });
+
+        return result;
+    }
+    else{
+        throw new Error('Product not found');
+    }    
+}
 
 // exporting services
 export const ProductServices = {
     createProductIntoDB,
     getAllProductsFromDB,
     getSingleProductFromDB,
+    updateSingleProductInDB,
 }

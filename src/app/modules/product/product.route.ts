@@ -16,5 +16,8 @@ router.get('/',ProductControllers.getAllProducts);
 // route to retrieve a single product
 router.get('/:productId',ProductControllers.getSingleProduct);
 
+// route to retrieve a single product
+router.put('/:productId',ProductControllers.updateSingleProduct);
+
 // exporting routes
 export const ProductRoutes = router;
