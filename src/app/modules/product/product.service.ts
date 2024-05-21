@@ -45,9 +45,27 @@ const updateSingleProductInDB = async (id : string, productData : TProduct) => {
     const objectLength : number = Object.keys(Object(productToUpdate)).length;
 
     if(objectLength > 0){
-        const updatingProduct = await Product.replaceOne({_id: id}, productData)
+        // const updatingProduct = await Product.replaceOne({_id: id}, productData)
+
+        Product.replaceOne({_id: id}, productData);
 
         const result = await Product.findOne({_id : id });
+
+        return result;
+    }
+    else{
+        throw new Error('Product not found');
+    }
+}
+
+// delete a single product service
+const deleteSingleProductFromDB = async (id : string) => {
+    const productToDelete = await Product.findOne({_id : id });
+
+    const objectLength : number = Object.keys(Object(productToDelete)).length;
+
+    if(objectLength > 0){   
+        const result = await Product.deleteOne({_id : id});
 
         return result;
     }
@@ -62,4 +80,5 @@ export const ProductServices = {
     getAllProductsFromDB,
     getSingleProductFromDB,
     updateSingleProductInDB,
+    deleteSingleProductFromDB
 }
