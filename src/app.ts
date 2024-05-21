@@ -4,8 +4,11 @@ import express, { Application, Request, Response } from 'express';
 // importing cors
 import cors from 'cors';
 
-// importing routes
+// importing product routes
 import { ProductRoutes } from './app/modules/product/product.route';
+
+// importing order routes
+import { OrderRoutes } from './app/modules/order/order.route';
 
 const app: Application = express();
 
@@ -17,6 +20,9 @@ app.use(cors());
 
 // application routes
 app.use('/api/products', ProductRoutes);
+
+// application routes
+app.use('/api/orders', OrderRoutes);
 
 // home route
 app.get('/', (req: Request, res: Response) => {
