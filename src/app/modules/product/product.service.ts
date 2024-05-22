@@ -75,6 +75,7 @@ const deleteSingleProductFromDB = async (id : string) => {
 }
 
 // searching for a specific term service
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const searchForSpecificTermInDB = async (searchTerm : any) => {
     const result = Product.find({
         $or: [

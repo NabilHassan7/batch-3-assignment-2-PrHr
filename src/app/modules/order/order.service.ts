@@ -71,6 +71,7 @@ const getAllOrdersFromDB = async () => {
 }
 
 // search for specific order
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getSingleOrderByEmailFromDB = async (userEmail : any) => {
     
     const result = await Order.find({email : userEmail});
