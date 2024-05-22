@@ -9,7 +9,7 @@ export type TVariants = {
 
 // type declaration for inventory
 export type TInventory = {
-    quantity : string;
+    quantity : number;
     inStock : boolean;
 }
 

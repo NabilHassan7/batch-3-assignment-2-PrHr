@@ -19,7 +19,7 @@ const variantsSchema = new Schema<TVariants>({
 // Inventory Schema Declaration
 const inventorySchema = new Schema<TInventory>({
     quantity: {
-        type: String,
+        type: Number,
         required: [true,'Quantity is required.'],
     },
     inStock: {

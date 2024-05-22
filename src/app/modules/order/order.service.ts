@@ -15,9 +15,49 @@ const createOrderInDB = async (orderData : TOrder) => {
 
     // checking if ordered product exists in database
     if(objectLength > 0){
-        const result = await Order.create(orderData);
+        const isProductInStock = ordererdProduct?.inventory.inStock;
+        const currentProductQuantity = ordererdProduct?.inventory.quantity;
 
-        return result;
+        // checking if ordered product is in stock
+        if(isProductInStock == true && currentProductQuantity != 0){
+            const productQuantity = ordererdProduct?.inventory.quantity || 0;
+            const orderedQuantity = orderData.quantity;
+            
+            // checking if enough quantity is present to fulfill order
+            if(orderedQuantity > productQuantity){
+                throw new Error('Insufficient quantity available in inventory');
+            }
+            else{
+                // updating the current quantity
+                await Product.updateOne(
+                    {_id : ordererdProduct?.id},
+                    { $inc : 
+                        {
+                            "inventory.quantity" : -orderedQuantity
+                        }
+                    }
+                )
+
+                const updatedQuantity = ordererdProduct?.inventory.quantity;
+                // changing the inStock flag if the quantity is zero
+                if(updatedQuantity == 0){
+                    await Product.updateOne(
+                        {_id : ordererdProduct?.id},
+                        { 
+                            "inventory.inStock" : false
+                        }
+                    )
+                }
+
+                // creating the order in the database
+                const result = await Order.create(orderData);
+
+                return result;
+            }
+        }
+        else{
+            throw new Error('Insufficient quantity available in inventory');
+        }
     }
 
     throw new Error('Product does not exist');
@@ -32,8 +72,7 @@ const getAllOrdersFromDB = async () => {
 
 // search for specific order
 const getSingleOrderByEmailFromDB = async (userEmail : any) => {
-    console.log(userEmail);
-
+    
     const result = await Order.find({email : userEmail});
 
     const objectLength : number = Object.keys(Object(result)).length;
