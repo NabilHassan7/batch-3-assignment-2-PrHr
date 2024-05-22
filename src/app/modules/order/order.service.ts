@@ -23,6 +23,31 @@ const createOrderInDB = async (orderData : TOrder) => {
     throw new Error('Product does not exist');
 }
 
+// get all order service
+const getAllOrdersFromDB = async () => {
+    const result = await Order.find();
+
+    return result;
+}
+
+// search for specific order
+const getSingleOrderByEmailFromDB = async (userEmail : any) => {
+    console.log(userEmail);
+
+    const result = await Order.find({email : userEmail});
+
+    const objectLength : number = Object.keys(Object(result)).length;
+
+    if(objectLength > 0){
+        return result;
+    }
+    else{
+        throw new Error('Order not found');
+    }
+}
+
 export const OrderServices = {
     createOrderInDB,
+    getAllOrdersFromDB,
+    getSingleOrderByEmailFromDB
 }
