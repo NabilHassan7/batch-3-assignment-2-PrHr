@@ -4,12 +4,18 @@ import { Request, Response } from "express";
 // importing from order services
 import { OrderServices } from "./order.service";
 
+// importing the order validation schema
+import OrderValidationSchema from "./order.validation";
+
 // order product controller
 const createOrder = async (req : Request, res : Response) => {
     try{
         const { order : orderData } = req.body;
 
-        const result = await OrderServices.createOrderInDB(orderData);
+        // product data validation using zod
+        const parsedOrderData = OrderValidationSchema.parse(orderData);
+
+        const result = await OrderServices.createOrderInDB(parsedOrderData);
 
         res.status(200).json({
             success: true,
