@@ -61,7 +61,7 @@ const productSchema = new Schema<TProduct, ProductModel>({
         type: inventorySchema,
         required: [true,'Inventory is required.'],
     }
-})
+}, { versionKey: false })
 
 // static method
 productSchema.statics.isProductExists = async function(name : string){

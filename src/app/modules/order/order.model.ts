@@ -24,7 +24,7 @@ const orderSchema = new Schema<TOrder, OrderModel>({
         type: Number,
         required: [true, 'Quantity is required']
     }
-})
+}, { versionKey: false })
 
 // static method
 orderSchema.statics.isProductExists = async function(id : string){
