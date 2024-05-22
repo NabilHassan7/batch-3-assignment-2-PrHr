@@ -1,12 +1,32 @@
+// importing from express
 import { Request, Response } from "express";
 
-const createOrder = (req : Request, res : Response) => {
+// importing from order services
+import { OrderServices } from "./order.service";
+
+// order product controller
+const createOrder = async (req : Request, res : Response) => {
     try{
-        const { product : productData } = req.body;
+        const { order : orderData } = req.body;
 
-        
-    }
-    catch{
+        const result = await OrderServices.createOrderInDB(orderData);
 
+        res.status(200).json({
+            success: true,
+            message: "Order created successfully!",
+            data: result
+        })
     }
+    catch(err : any){
+        res.status(500).json({
+            success: false,
+            message: err.message || 'Something went wrong',
+            error: err
+        })
+    }
+}
+
+// exporting order controllers
+export const OrderControllers = {
+    createOrder,
 }
